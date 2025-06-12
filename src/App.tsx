@@ -24,7 +24,7 @@ const App: React.FC = () => {
   <div className="flex items-center space-x-8">
     {[
       { key: 'home', label: 'Home' },
-      { key: 'leaderboard', label: 'Leader Board' },
+      { key: 'leaderboard', label: 'Leaderboard' },
       { key: 'compare', label: 'Compare' },
     ].map((tab) => (
       <button

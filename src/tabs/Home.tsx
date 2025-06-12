@@ -19,6 +19,7 @@ const Home: React.FC = () => {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [selectedResumeName, setselectedResumeName] = useState('');
   const [scoreResult, setScoreResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   // Fetch jobs on load
   useEffect(() => {
@@ -43,6 +44,7 @@ const Home: React.FC = () => {
     }
 
     setScoreResult(null); //Hide chart & reason before new fetch 
+    setLoading(true);      // Disable button
 
     axios.post('http://127.0.0.1:5000/api/score', {
       jobId: selectedJobId,
@@ -50,7 +52,8 @@ const Home: React.FC = () => {
       JD: selectedJob.JD
     })
       .then(res => setScoreResult(res.data))
-      .catch(err => console.error('Error calculating score:', err));
+      .catch(err => console.error('Error calculating score:', err))
+      .finally(() => { setLoading(false); });;
   };
 
   const getScoreColor = (score: number) => {
@@ -107,10 +110,11 @@ const Home: React.FC = () => {
       {/* Calculate Button */}
       <div className="flex justify-center">
         <button
-          className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded mt-2"
+          className={`bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded mt-2 ${loading || !selectedJobId || !selectedResumeName ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={handleScoreCalculation}
+          disabled={loading || !selectedJobId || !selectedResumeName}
         >
-          Calculate Job Fitness
+          {loading ? 'Calculating...' : 'Calculate Job Fitness'}
         </button>
       </div>
       
