@@ -31,7 +31,7 @@ const LeaderBoard: React.FC = () => {
     if (!selectedJobId) return;
 
     // Fetch leaderboard results for selected job
-    axios.get(`http://127.0.0.1:5000/api/jobFitnessResults?jobID=${selectedJobId}`)
+    axios.get(`http://127.0.0.1:5000/api/jobTopFitnessResults?jobID=${selectedJobId}`)
       .then(res => setResults(res.data))
       .catch(err => console.error('Error fetching leaderboard:', err));
   }, [selectedJobId]);
